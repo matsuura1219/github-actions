@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Create Pull Request Automatically (Master -> Develop)
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push the tag (V.XX.XX.X)
+  push:
+    tags:
+      - 'v*'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  create-pr:
+    # select machine
+    runs-on: ubuntu-latest
+    
+    env:
+      # set token
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    steps:
+      # check out the repository
+      - uses: actions/checkout@v2
+      
+      - name: Create Pull Request
+        # gh pr create [flag]: the commond which creates PR automatically
+        # -B: The branch into which you want your code merged
+        # -t: Title for the pull request
+        # -b: Body for the pull request
+        run: |
+          gh pr create -B "develop" -t "Master -> Develop" -b ""
